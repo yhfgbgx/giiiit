@@ -6,5 +6,6 @@ public class Main {
         System.out.println("first");
         System.out.println("hot-fix");
         System.out.println("master test");
+        System.out.println("hotfix");
     }
 }
