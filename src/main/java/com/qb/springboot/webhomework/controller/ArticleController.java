@@ -71,7 +71,7 @@ public class ArticleController {
         List<Article> pageByTop = articleService.findPageByTop();
         return Result.success(pageByTop);
 
-    }
+}
 
     @GetMapping("/attention")
     @ApiOperation("查询某用户关注的人发表的文章")

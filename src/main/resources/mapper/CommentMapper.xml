@@ -18,6 +18,7 @@
     <select id="getCommentListByArticleId" resultMap="normalComment">
         SELECT * FROM `comment` LEFT JOIN `user` on `comment`.userid = `user`.userid
         WHERE articleid = #{articleId}
+        ORDER BY comtime DESC
     </select>
 
 
