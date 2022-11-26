@@ -3,8 +3,10 @@ package com.qb.springboot.webhomework.service.impl;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.qb.springboot.webhomework.common.Constants;
+import com.qb.springboot.webhomework.entity.Article;
 import com.qb.springboot.webhomework.entity.User;
 import com.qb.springboot.webhomework.exception.ServiceException;
+import com.qb.springboot.webhomework.mapper.ArticleMapper;
 import com.qb.springboot.webhomework.mapper.UserMapper;
 import com.qb.springboot.webhomework.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -27,6 +29,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Resource
     UserMapper userMapper;
+
+    @Resource
+    ArticleMapper articleMapper;
 
 
     @Override
@@ -92,6 +97,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
         if (value == 1) userMapper.addLikeOne(userId, articleId);
         if (value == -1) userMapper.deleteLikeOne(userId, articleId);
+
+        Article article = articleMapper.selectById(articleId);
+
+        article.setLikeNub(article.getLikeNub() + value);
+        articleMapper.updateById(article);
 
         return true;
     }

@@ -28,13 +28,13 @@ public interface UserMapper extends BaseMapper<User> {
 
 
 
-    @Select("SELECT * FROM like WHERE userid = #{userId} and articleid = #{articleId}")
+    @Select("SELECT * FROM `like` WHERE userid = #{userId} and articleid = #{articleId}")
     Object getLikeOne(@Param("userId") Integer userId,@Param("articleId")  Integer articleId);
 
-    @Insert("INSERT INTO like (userid, articleid) VALUES (#{userId}, #{articleId})")
+    @Insert("INSERT INTO `like` (userid, articleid) VALUES (#{userId}, #{articleId})")
     Boolean addLikeOne(@Param("userId") Integer userId,@Param("articleId")  Integer articleId);
 
-    @Delete("DELETE FROM attent WHERE userid = #{userId} and articleid = #{articleId};")
+    @Delete("DELETE FROM `like` WHERE userid = #{userId} and articleid = #{articleId};")
     Boolean deleteLikeOne(@Param("userId") Integer userId,@Param("articleId")  Integer articleId);
 
 
