@@ -83,20 +83,26 @@
                 username like concat('%', #{v}, '%')
     </select>
     <select id="findPageByCollect"  resultMap="normalArticle">
-        SELECT * FROM collect
+        SELECT
+            collectid, article.articleid, head, summary, cover, releasetime, txt, type, article.userid, likeNub, phone, password, username, headportait, gender, age, profession, address, attent_nub, follow_nub, article_nub
+
+
+        FROM collect
             LEFT JOIN article
             on collect.articleid = article.articleid
             LEFT JOIN `user`
-            on `user`.userid = collect.userid
+            on `user`.userid = article.userid
             WHERE collect.userid = #{userid}
     </select>
 
     <select id="findPageByLike" resultMap="normalArticle">
-        SELECT * FROM `like`
+        SELECT
+            likeid, article.articleid, head, summary, cover, releasetime, txt, type, article.userid, likeNub, phone, password, username, headportait, gender, age, profession, address, attent_nub, follow_nub, article_nub
+            FROM `like`
                           LEFT JOIN article
                                     on `like` .articleid = article.articleid
                           LEFT JOIN `user`
-                                    on `user`.userid = `like` .userid
+                                    on `user`.userid = `article` .userid
         WHERE `like`.userid = #{userid}
     </select>
 
