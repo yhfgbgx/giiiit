@@ -80,19 +80,21 @@ public class Article implements Serializable {
      * 用户
      */
     @TableField(exist = false)
-    private User user;
+    private User user = new User();
 
 
 
     @TableField(exist = false)
     private List<Comment> comments;
 
-    public Article(String cover, String head, String summary, String txt, String type) {
+    public Article(String cover, String head, String summary, String txt, String type,Integer userId) {
 
         this.cover = cover;
         this.head = head;
         this.summary = summary;
         this.txt = txt;
         this.type = type;
+        this.user.setUserid(userId);
     }
+
 }

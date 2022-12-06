@@ -50,6 +50,6 @@ public interface UserMapper extends BaseMapper<User> {
 
     @Select("SELECT * FROM `attent` LEFT JOIN `user` on attent.userid = `user`.userid where followerid = #{userId} ")
     List<User> getUserAttent(Integer userId);
-    @Select("SELECT * FROM `attent` LEFT JOIN `user` on attent.followerid = `user`.userid where `attent`.userid = #{userId} ")
+    @Select("SELECT attentid, `user`.userid, phone, password, username, headportait, gender, age, profession, address, attent_nub, follow_nub, article_nub FROM `attent` LEFT JOIN `user` on attent.followerid = `user`.userid where `attent`.userid = #{userId} ")
     List<User> getUserFollow(Integer userId);
 }

@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.qb.springboot.webhomework.entity.Article;
+import com.qb.springboot.webhomework.entity.User;
 import com.qb.springboot.webhomework.mapper.ArticleMapper;
 import com.qb.springboot.webhomework.mapper.CommentMapper;
 import com.qb.springboot.webhomework.service.IArticleService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.qb.springboot.webhomework.service.ICommentService;
+import com.qb.springboot.webhomework.service.IUserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -29,6 +31,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     @Resource
     private ArticleMapper articleMapper;
 
+    @Resource
+    private IUserService userService;
     @Resource
     private ICommentService commentService;
 
@@ -76,7 +80,9 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     public Boolean addArticle(Article article) {
         Boolean flg = articleMapper.addArticle(article);
         if (!flg) return false;
-
+        User one = userService.getById(article.getUser().getUserid());
+        one.setArticleNub(one.getArticleNub() + 1);
+        userService.updateById(one);
         return true;
     }
 
@@ -118,6 +124,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         QueryWrapper<Article> wrapper = new QueryWrapper<>();
         wrapper.eq("articleid", deleteId);
 
+        Article article = articleMapper.selectDetail(deleteId);
+        User one = userService.getById(article.getUser().getUserid());
+        one.setArticleNub(one.getArticleNub() - 1);
+        userService.updateById(one);
         return this.remove(wrapper);
     }
 

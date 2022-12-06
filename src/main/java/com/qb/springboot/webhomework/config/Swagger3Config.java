@@ -1,3 +1,4 @@
+
 package com.qb.springboot.webhomework.config;
 
 import io.swagger.annotations.Api;
@@ -32,9 +33,10 @@ public class Swagger3Config {
                 .globalResponses(HttpMethod.POST,getGlobalResponseMessage());
     }
 
-    /*
-    生成接口信息，包括标题，联系人等
-     */
+
+   // 生成接口信息，包括标题，联系人等
+
+
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("Swagger3接口文档")
@@ -45,10 +47,13 @@ public class Swagger3Config {
     }
 
 
-    /*
+
+/*
     封装全局通用参数
-     */
-    /*private List<RequestParameter> getGlobalRequestParameters() {
+     *//*
+
+    */
+/*private List<RequestParameter> getGlobalRequestParameters() {
         List<RequestParameter> parameters=new ArrayList<>();
         parameters.add(new RequestParameterBuilder()
                 .name("uuid")
@@ -61,9 +66,10 @@ public class Swagger3Config {
 
         return parameters;
     }*/
-    /*
-    封装通用相应信息
-     */
+
+    //封装通用相应信息
+
+
     private List<Response> getGlobalResponseMessage() {
         List<Response> responseList=new ArrayList<>();
         responseList.add(new ResponseBuilder().code("404").description("未找到资源").build());

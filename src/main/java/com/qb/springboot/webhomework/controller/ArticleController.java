@@ -53,7 +53,7 @@ public class ArticleController {
     @ApiOperation("发表文章")
     @PostMapping
     public Result addArticle(@RequestBody ArticleDto dto){
-        Article article = new Article(dto.getCover(), dto.getHead(), dto.getSummary(), dto.getTxt(), dto.getType());
+        Article article = new Article(dto.getCover(), dto.getHead(), dto.getSummary(), dto.getTxt(), dto.getType(), dto.getUserId());
         article.setUser(new User(dto.getUserId()));
         Boolean flg = articleService.addArticle(article);
         if (!flg) return Result.error(Constants.CODE_250, "系统错误");

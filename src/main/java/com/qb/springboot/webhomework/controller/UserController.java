@@ -128,6 +128,11 @@ public class UserController {
     public Result updateUser(@RequestBody User user) {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("userid", user.getUserid());
+
+        if(StringUtils.isNotBlank(user.getPassword())) {
+            user.setPassword(SecureUtil.md5(user.getPassword()));
+        }
+
         boolean flg = userService.update(user, wrapper);
         if (!flg) return Result.error(Constants.CODE_250, "系统错误");
 

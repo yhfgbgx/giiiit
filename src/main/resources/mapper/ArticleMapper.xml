@@ -67,7 +67,7 @@
 
 
     <select id="selectDetail" resultMap="normalArticle">
-        SELECT articleid, head, summary, cover, releasetime, txt, type, article.userid , username,headportait, attent_nub, follow_nub, article_nub
+        SELECT articleid, head, summary, cover, releasetime, txt, type,likeNub, article.userid , username,headportait, attent_nub, follow_nub, article_nub
         FROM article
         LEFT JOIN `user` on `user`.userid = article.userid
         WHERE articleid = #{articleId}
