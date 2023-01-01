@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qb.springboot.webhomework.mapper.CommentMapper">
+
+
+    <resultMap id="normalComment" type="com.qb.springboot.webhomework.entity.Comment">
+        <id property="commentid" column="commentid"></id>
+        <result property="comtime" column="comtime"></result>
+        <result property="comtext" column="comtext"></result>
+        <association property="user" javaType="com.qb.springboot.webhomework.entity.User">
+            <id property="userid" column="userid"></id>
+            <result property="username" column="username"></result>
+            <result property="headportait" column="headportait"></result>
+        </association>
+    </resultMap>
+
+
+    <select id="getCommentListByArticleId" resultMap="normalComment">
+        SELECT * FROM `comment` LEFT JOIN `user` on `comment`.userid = `user`.userid
+        WHERE articleid = #{articleId}
+        ORDER BY comtime DESC
+    </select>
+
+
+    <insert id="addOneComment" useGeneratedKeys="true" keyProperty="commentid">
+        insert into `comment` (userid, articleid, comtext) values (#{user.userid}, #{articleid}, #{comtext})
+    </insert>
+
+    <select id="getCommentByCommentId" resultMap="normalComment">
+        SELECT * FROM `comment` LEFT JOIN `user` on `comment`.userid = `user`.userid
+        WHERE commentid = #{id}
+    </select>
+
+
+</mapper>

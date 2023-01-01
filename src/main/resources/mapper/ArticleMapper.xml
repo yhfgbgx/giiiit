@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qb.springboot.webhomework.mapper.ArticleMapper">
+
+
+    <!--<resultMap id="normalArticle" type="com.qb.springboot.webhomework.entity.Article">
+        <id property="articleid" column="articleid"></id>
+        <result property="head" column="head"></result>
+        <result property="summary" column="summary"></result>
+        <result property="cover" column="cover"></result>
+        <result property="txt" column="txt"></result>
+        <result property="type" column="type"></result>
+        <result property="likeNub" column="likenub"></result>
+        <association property="user" javaType="com.qb.springboot.webhomework.entity.User">
+            <id property="userid" column="userid"></id>
+            <result property="username" column="username"></result>
+        </association>
+    </resultMap>-->
+
+    <resultMap id="normalArticle" type="com.qb.springboot.webhomework.entity.Article">
+        <id property="articleid" column="articleid"></id>
+        <result property="head" column="head"></result>
+        <result property="summary" column="summary"></result>
+        <result property="cover" column="cover"></result>
+        <result property="releasetime" column="releasetime"></result>
+        <result property="txt" column="txt"></result>
+        <result property="type" column="type"></result>
+        <result property="likeNub" column="likenub"></result>
+        <association property="user" javaType="com.qb.springboot.webhomework.entity.User">
+            <id property="userid" column="userid"></id>
+            <result property="username" column="username"></result>
+            <result property="headportait" column="headportait"></result>
+            <result property="attentNub" column="attent_nub"></result>
+            <result property="followNub" column="follow_nub"></result>
+            <result property="articleNub" column="article_nub"></result>
+        </association>
+    </resultMap>
+
+
+    <!--resultType="com.qb.springboot.webhomework.entity.Article"-->
+    <select id="findPageByType"  resultMap="normalArticle" >
+        SELECT * FROM article LEFT JOIN `user` ON article.userid = user.userid
+        <if test="type != ''">
+            where type = #{type}
+        </if>
+    </select>
+
+
+    <!--<resultMap id="findPageByAttentionResultMap" type="com.qb.springboot.webhomework.entity.Article">
+        <id property="articleid" column="articleid"></id>
+        <result property="head" column="head"></result>
+        <result property="summary" column="summary"></result>
+        <result property="cover" column="cover"></result>
+        <result property="txt" column="txt"></result>
+        <result property="type" column="type"></result>
+        <result property="likeNub" column="likenub"></result>
+        <association property="user" javaType="com.qb.springboot.webhomework.entity.User">
+            <id property="userid" column="userid"></id>
+            <result property="username" column="username"></result>
+        </association>
+    </resultMap>-->
+
+    <select id="findPageByAttention" resultMap="normalArticle">
+        SELECT * FROM attent  RIGHT JOIN article on attent.userid =
+                                                    article.userid RIGHT JOIN `user` on followerid = `user`.userid WHERE followerid = #{userid}
+    </select>
+
+
+    <select id="selectDetail" resultMap="normalArticle">
+        SELECT articleid, head, summary, cover, releasetime, txt, type,likeNub, article.userid , username,headportait, attent_nub, follow_nub, article_nub
+        FROM article
+        LEFT JOIN `user` on `user`.userid = article.userid
+        WHERE articleid = #{articleId}
+
+    </select>
+
+
+    <select id="search" resultMap="normalArticle">
+        SELECT * FROM article LEFT JOIN `user` on article.userid = `user`.userid
+                WHERE head like concat('%', #{v}, '%')  or
+                summary like concat('%', #{v}, '%') or
+                txt like concat('%', #{v}, '%') or
+                username like concat('%', #{v}, '%')
+    </select>
+    <select id="findPageByCollect"  resultMap="normalArticle">
+        SELECT
+            collectid, article.articleid, head, summary, cover, releasetime, txt, type, article.userid, likeNub, phone, password, username, headportait, gender, age, profession, address, attent_nub, follow_nub, article_nub
+
+
+        FROM collect
+            LEFT JOIN article
+            on collect.articleid = article.articleid
+            LEFT JOIN `user`
+            on `user`.userid = article.userid
+            WHERE collect.userid = #{userid}
+    </select>
+
+    <select id="findPageByLike" resultMap="normalArticle">
+        SELECT
+            likeid, article.articleid, head, summary, cover, releasetime, txt, type, article.userid, likeNub, phone, password, username, headportait, gender, age, profession, address, attent_nub, follow_nub, article_nub
+            FROM `like`
+                          LEFT JOIN article
+                                    on `like` .articleid = article.articleid
+                          LEFT JOIN `user`
+                                    on `user`.userid = `article` .userid
+        WHERE `like`.userid = #{userid}
+    </select>
+
+
+</mapper>
